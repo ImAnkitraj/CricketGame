@@ -4,6 +4,9 @@ import com.tekion.cricket.dto.*;
 
 import java.util.*;
 
+import static com.tekion.cricket.utils.Constants.ANSI_BLUE;
+import static com.tekion.cricket.utils.Constants.ANSI_RED;
+
 public abstract class Match {
     protected Date date;
     protected MatchScorecard matchScorecard;
@@ -146,6 +149,49 @@ public abstract class Match {
             }
         }
         return match;
+    }
+
+    protected void displayResult(Team team1, Team team2) {
+        System.out.println("\nTeam: " + team1.getName() + matchScorecard.getTeam1Scorecard() + "\n");
+        List<Player> players1 = matchScorecard.getTeam1Scorecard().getPlayers();
+        System.out.println("------------------------------------------------------------------");
+        System.out.printf("| %-20s | %-4s | %-4s | %-4s | %-4s | %-8s | \n", "Name", "Runs", "Balls", "4s", "6s", "Srike Rate");
+        System.out.println("------------------------------------------------------------------");
+        for (int i = 0; i < players1.size(); i++) {
+            System.out.format("| %-20s | %-4d | %-4d  | %-4d | %-4d | %-9.2f  | \n", players1.get(i).getName(), players1.get(i).getRuns(), players1.get(i).getBallsfaced(), players1.get(i).getFours(), players1.get(i).getSixes(), ((float) players1.get(i).getRuns() / players1.get(i).getBallsfaced()) * 100);
+        }
+        List<Player> bowlers = matchScorecard.getTeam2Scorecard().getBowlers();
+        System.out.println("------------------------------------------------------------------");
+        System.out.printf("| %-20s | %-5s | %-5s | %-8s |\n", "Name", "Overs", "Runs", "Wickets");
+
+        for (int i = 0; i < bowlers.size(); i++) {
+            Bowler b = ((Bowler) bowlers.get(i));
+            System.out.printf("| %-20s | %-5s | %-5s | %-8s |\n", b.getName(), (b.getBallsDone() / 6) + "." + (b.getBallsDone() % 6), b.getRunsGiven(), b.getWickets());
+        }
+
+        System.out.println(ANSI_RED + "\nTeam: " + team2.getName() + matchScorecard.getTeam2Scorecard() + "\n");
+        List<Player> players2 = matchScorecard.getTeam2Scorecard().getPlayers();
+        System.out.println("------------------------------------------------------------------");
+        System.out.printf("| %-20s | %-4s | %-4s | %-4s | %-4s | %-8s | \n", "Name", "Runs", "Balls", "4s", "6s", "Srike Rate");
+        System.out.println("------------------------------------------------------------------");
+        for (int i = 0; i < players2.size(); i++) {
+            System.out.format("| %-20s | %-4d | %-4d  | %-4d | %-4d | %-9.2f  | \n", players2.get(i).getName(), players2.get(i).getRuns(), players2.get(i).getBallsfaced(), players2.get(i).getFours(), players2.get(i).getSixes(), ((float) players2.get(i).getRuns() / players2.get(i).getBallsfaced()) * 100);
+        }
+        bowlers = matchScorecard.getTeam1Scorecard().getBowlers();
+        System.out.println("------------------------------------------------------------------");
+        System.out.printf("| %-20s | %-5s | %-5s | %-8s |\n", "Name", "Overs", "Runs", "Wickets");
+        for (int i = 0; i < bowlers.size(); i++) {
+            Bowler b = ((Bowler) bowlers.get(i));
+            System.out.printf("| %-20s | %-5s | %-5s | %-8s |\n", b.getName(), (b.getBallsDone() / 6) + "." + (b.getBallsDone() % 6), b.getRunsGiven(), b.getWickets());
+        }
+        System.out.print(ANSI_BLUE);
+        if (matchScorecard.getTeam1Scorecard().getTotalRuns() > matchScorecard.getTeam2Scorecard().getTotalRuns()) {
+            System.out.println(team1.getName() + " wins by " + (matchScorecard.getTeam1Scorecard().getTotalRuns() - matchScorecard.getTeam2Scorecard().getTotalRuns()) + " runs");
+        } else if (matchScorecard.getTeam1Scorecard().getTotalRuns() < matchScorecard.getTeam2Scorecard().getTotalRuns()) {
+            System.out.println(team2.getName() + " wins by " + (10 - matchScorecard.getTeam2Scorecard().getTotalWickets()) + " wickets");
+        } else {
+            System.out.println("Match drawn");
+        }
     }
 
     public static void main(String[] args) {

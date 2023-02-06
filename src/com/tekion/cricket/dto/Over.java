@@ -34,7 +34,7 @@ public class Over {
             if(outcome == BallOutcome.Four) {
                 team1Scorecard.getStriker().incrementFours();
             }
-            if(outcome == BallOutcome.Four) {
+            if(outcome == BallOutcome.Six) {
                 team1Scorecard.getStriker().incrementSixes();
             }
             runs += currentBall.getRun();
@@ -66,7 +66,7 @@ public class Over {
             if(outcome == BallOutcome.Four) {
                 team2Scorecard.getStriker().incrementFours();
             }
-            if(outcome == BallOutcome.Four) {
+            if(outcome == BallOutcome.Six) {
                 team2Scorecard.getStriker().incrementSixes();
             }
             runs += currentBall.getRun();
