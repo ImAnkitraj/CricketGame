@@ -31,7 +31,15 @@ public class Over {
             if (outcome == BallOutcome.One || outcome == BallOutcome.Three) {
                 team1Scorecard.swapStriker();
             }
+            if(outcome == BallOutcome.Four) {
+                team1Scorecard.getStriker().incrementFours();
+            }
+            if(outcome == BallOutcome.Four) {
+                team1Scorecard.getStriker().incrementSixes();
+            }
             runs += currentBall.getRun();
+            team1Scorecard.getStriker().setRuns(currentBall.getRun());
+            team1Scorecard.getStriker().incrementBallsfaced();
             team1Scorecard.setTotalRuns(team1Scorecard.getTotalRuns() + currentBall.getRun());
             if (currentBall.getBallOutcome() == BallOutcome.Wicket) {
                 wickets++;
@@ -55,7 +63,15 @@ public class Over {
             if (outcome == BallOutcome.One || outcome == BallOutcome.Three) {
                 team2Scorecard.swapStriker();
             }
+            if(outcome == BallOutcome.Four) {
+                team2Scorecard.getStriker().incrementFours();
+            }
+            if(outcome == BallOutcome.Four) {
+                team2Scorecard.getStriker().incrementSixes();
+            }
             runs += currentBall.getRun();
+            team2Scorecard.getStriker().setRuns(currentBall.getRun());
+            team2Scorecard.getStriker().incrementBallsfaced();
             team2Scorecard.setTotalRuns(team2Scorecard.getTotalRuns() + currentBall.getRun());
             if (currentBall.getBallOutcome() == BallOutcome.Wicket) {
                 wickets++;

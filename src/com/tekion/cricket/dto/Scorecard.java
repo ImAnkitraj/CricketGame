@@ -55,7 +55,7 @@ public class Scorecard {
     public void changeBowler() {
         Random random = new Random();
         Player b = bowlers.get(random.nextInt(bowlers.size()));
-        if (b.getName().equals(bowler.getName())) {
+        if (b.getId().equals(bowler.getId())) {
             changeBowler();
         } else {
             bowler = b;
@@ -116,4 +116,7 @@ public class Scorecard {
         return "\n" + Constants.ANSI_PURPLE + "Scorecard: \n" + "\tRuns: " + totalRuns + "\n\tWickets: " + totalWickets;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
 }

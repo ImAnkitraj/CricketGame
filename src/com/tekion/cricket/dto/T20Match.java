@@ -13,17 +13,17 @@ public class T20Match extends Match {
 
     public T20Match(Date date, String venue) {
         this.date = date;
-        List<Player> team1Players = initializeTeam1Players();
-        List<Player> team2Players = initializeTeam2Players();
-        List<Team> teams = new ArrayList<>();
-        teams.add(new Team("Chennai Super Kings", team1Players, true));
-        teams.add(new Team("Mumbai Indians", team2Players, false));
+
+        List<Team> teams = selectTeams();
+
+        teams.get(0).getScorecard().setBatting(true);
+        teams.get(1).getScorecard().setBatting(false);
+
         this.matchScorecard = new MatchScorecard(teams);
         this.venue = venue;
         this.overs = 20;
         this.overLimitPerBowler = 4;
     }
-
 
 
     @Override
@@ -42,7 +42,7 @@ public class T20Match extends Match {
         matchScorecard.getTeam1Scorecard().setBatting(false);
         matchScorecard.getTeam2Scorecard().setBatting(true);
         //team2 innings
-        for (int overNumber = 1; (overNumber <= this.overs) && matchScorecard.getTeam2Scorecard().getTotalWickets() < 10 && matchScorecard.getTeam2Scorecard().getTotalRuns() < matchScorecard.getTeam1Scorecard().getTotalRuns(); overNumber++) {
+        for (int overNumber = 1; (overNumber <= this.overs) && matchScorecard.getTeam2Scorecard().getTotalWickets() < 10 && matchScorecard.getTeam2Scorecard().getTotalRuns() <= matchScorecard.getTeam1Scorecard().getTotalRuns(); overNumber++) {
             Over over = new Over(matchScorecard.getTeam1Scorecard(), matchScorecard.getTeam2Scorecard());
             System.out.println(ANSI_GREEN + "\nOver: " + overNumber);
             over.throwOver();
@@ -50,9 +50,19 @@ public class T20Match extends Match {
             matchScorecard.getTeam1Scorecard().changeBowler();
         }
 
-        System.out.println("\nTeam: " + team1.getName() + matchScorecard.getTeam1Scorecard());
-        System.out.println(ANSI_RED + "\nTeam: " + team2.getName() + matchScorecard.getTeam2Scorecard());
+        System.out.println("\nTeam: " + team1.getName() + matchScorecard.getTeam1Scorecard() +"\n");
+        List<Player> players1 = matchScorecard.getTeam1Scorecard().getPlayers();
+        System.out.println("Name\t\tRuns/Balls\t\t4s\t\t6s\t\tStrike rate");
+        for (int i=0;i<players1.size();i++) {
+            System.out.format("%s\t\t%d/%d\t\t%d\t\t%d\t\t%.2f\n",players1.get(i).getName(), players1.get(i).getRuns(), players1.get(i).getBallsfaced(), players1.get(i).getFours(), players1.get(i).getSixes(), ((float)players1.get(i).getRuns()/players1.get(i).getBallsfaced())*100);
+        }
+        System.out.println(ANSI_RED + "\nTeam: " + team2.getName() + matchScorecard.getTeam2Scorecard() + "\n");
+        List<Player> players2 = matchScorecard.getTeam2Scorecard().getPlayers();
+        System.out.println("Name\t\tRuns/Balls\t\t4s\t\t6s\t\tStrike rate");
 
+        for (int i=0;i<players2.size();i++) {
+            System.out.format("%s\t\t%d/%d\t\t%d\t\t%d\t\t%.2f\n",players2.get(i).getName(), players2.get(i).getRuns(), players2.get(i).getBallsfaced(), players2.get(i).getFours(), players2.get(i).getSixes(), ((float)players2.get(i).getRuns()/players2.get(i).getBallsfaced())*100);
+        }
         System.out.print(ANSI_BLUE);
         if (matchScorecard.getTeam1Scorecard().getTotalRuns() > matchScorecard.getTeam2Scorecard().getTotalRuns()) {
             System.out.println(team1.getName() + " wins by " + (matchScorecard.getTeam1Scorecard().getTotalRuns() - matchScorecard.getTeam2Scorecard().getTotalRuns()) + " runs");

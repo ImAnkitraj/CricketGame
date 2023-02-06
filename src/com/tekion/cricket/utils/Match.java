@@ -4,15 +4,46 @@ import com.tekion.cricket.dto.*;
 
 import java.util.*;
 
-import static com.tekion.cricket.utils.Constants.MATCH_DATE;
-
 public abstract class Match {
     protected Date date;
     protected MatchScorecard matchScorecard;
     protected String venue;
 
-
     abstract public void play();
+
+    protected static List<Team> selectTeams() {
+
+        List<Team> teams = new ArrayList<>();
+
+        IPLTeams.initIplTeams();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Select Team1 ...");
+
+        for (int i = 0; i < IPLTeams.iplTeams.size(); i++) {
+            System.out.println(i + 1 + ". " + IPLTeams.iplTeams.get(i).getName());
+        }
+        System.out.println("Other keys to Exit");
+
+        int selectedTeam = sc.nextInt();
+        if (selectedTeam <= 0 || selectedTeam > IPLTeams.iplTeams.size()) {
+            System.out.println("Exiting ....");
+            System.exit(0);
+        }
+        teams.add(IPLTeams.iplTeams.remove(selectedTeam - 1));
+        System.out.println("Select Team2 ...");
+        for (int i = 0; i < IPLTeams.iplTeams.size(); i++) {
+            System.out.println(i + 1 + ". " + IPLTeams.iplTeams.get(i).getName());
+        }
+        System.out.println("Other keys to Exit");
+
+        selectedTeam = sc.nextInt();
+        if (selectedTeam <= 0 || selectedTeam > IPLTeams.iplTeams.size()) {
+            System.out.println("Exiting ....");
+            System.exit(0);
+        }
+        teams.add(IPLTeams.iplTeams.get(selectedTeam - 1));
+        return teams;
+    }
 
     protected static List<Player> initializeTeam1Players() {
         List<Player> team1Players = new ArrayList<>();
@@ -77,8 +108,48 @@ public abstract class Match {
         }
     }
 
+    private static Match selectMatchFormat() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Select format of match :");
+        System.out.println("\t1. T20 Match");
+        System.out.println("\t2. ODI Match");
+        System.out.println("\t3. Test Match");
+
+        Match match = null;
+        while (match == null) {
+            System.out.println("Press 1, 2, or 3 to select...\n");
+            Integer matchFormat = sc.nextInt();
+            switch (matchFormat) {
+                case 1: {
+                    System.out.println("Enter Venue: ");
+                    String venue = sc.next();
+                    match = new T20Match(new Date(), venue);
+                    break;
+                }
+                case 2: {
+                    System.out.println("Enter Venue: ");
+                    String venue = sc.next();
+                    match = new OdiMatch(new Date(), venue);
+                    break;
+                }
+                case 3: {
+                    System.out.println("Enter Venue: ");
+                    String venue = sc.next();
+                    match = new TestMatch(new Date(), venue);
+                    break;
+                }
+                default: {
+                    match = null;
+                    break;
+                }
+            }
+        }
+        return match;
+    }
+
     public static void main(String[] args) {
-        Match match = new T20Match(new Date(MATCH_DATE), "Eden Gardens");
+        Match match = selectMatchFormat();
         match.toss();
         match.play();
     }

@@ -22,8 +22,8 @@ public class TestMatch extends Match {
         teams.add(new Team("Mumbai Indians", team2Players, false));
         this.matchScorecard = new MatchScorecard(teams);
         this.venue = venue;
-        this.overs = 20;
-        this.overLimitPerBowler = 4;
+        this.overs = 90;
+        this.overLimitPerBowler = 30;
     }
 
 
