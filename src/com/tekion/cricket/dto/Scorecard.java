@@ -119,4 +119,8 @@ public class Scorecard {
     public List<Player> getPlayers() {
         return players;
     }
+
+    public List<Player> getBowlers() {
+        return bowlers;
+    }
 }

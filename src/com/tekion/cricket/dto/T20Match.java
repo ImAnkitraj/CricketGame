@@ -49,19 +49,37 @@ public class T20Match extends Match {
             matchScorecard.getTeam2Scorecard().swapStriker();
             matchScorecard.getTeam1Scorecard().changeBowler();
         }
+        displayResult(team1, team2);
+    }
 
-        System.out.println("\nTeam: " + team1.getName() + matchScorecard.getTeam1Scorecard() +"\n");
+    private void displayResult(Team team1, Team team2) {
+        System.out.println("\nTeam: " + team1.getName() + matchScorecard.getTeam1Scorecard() + "\n");
         List<Player> players1 = matchScorecard.getTeam1Scorecard().getPlayers();
         System.out.println("Name\t\tRuns/Balls\t\t4s\t\t6s\t\tStrike rate");
-        for (int i=0;i<players1.size();i++) {
-            System.out.format("%s\t\t%d/%d\t\t%d\t\t%d\t\t%.2f\n",players1.get(i).getName(), players1.get(i).getRuns(), players1.get(i).getBallsfaced(), players1.get(i).getFours(), players1.get(i).getSixes(), ((float)players1.get(i).getRuns()/players1.get(i).getBallsfaced())*100);
+        for (int i = 0; i < players1.size(); i++) {
+            System.out.format("%s\t\t%d/%d\t\t%d\t\t%d\t\t%.2f\n", players1.get(i).getName(), players1.get(i).getRuns(), players1.get(i).getBallsfaced(), players1.get(i).getFours(), players1.get(i).getSixes(), ((float) players1.get(i).getRuns() / players1.get(i).getBallsfaced()) * 100);
+        }
+
+        List<Player> bowlers = matchScorecard.getTeam1Scorecard().getBowlers();
+        System.out.println("-----------------------------------");
+        System.out.println("Name\t\tOvers\t\tRuns\t\tWickets");
+        for (int i = 0; i < bowlers.size(); i++) {
+            Bowler b = ((Bowler) bowlers.get(i));
+            System.out.println(b.getName() + "\t\t" + (b.getBallsDone() / 6) + "." + (b.getBallsDone() % 6) + "\t\t" + b.getRunsGiven() + "\t\t" + b.getWickets());
         }
         System.out.println(ANSI_RED + "\nTeam: " + team2.getName() + matchScorecard.getTeam2Scorecard() + "\n");
         List<Player> players2 = matchScorecard.getTeam2Scorecard().getPlayers();
         System.out.println("Name\t\tRuns/Balls\t\t4s\t\t6s\t\tStrike rate");
 
-        for (int i=0;i<players2.size();i++) {
-            System.out.format("%s\t\t%d/%d\t\t%d\t\t%d\t\t%.2f\n",players2.get(i).getName(), players2.get(i).getRuns(), players2.get(i).getBallsfaced(), players2.get(i).getFours(), players2.get(i).getSixes(), ((float)players2.get(i).getRuns()/players2.get(i).getBallsfaced())*100);
+        for (int i = 0; i < players2.size(); i++) {
+            System.out.format("%s\t\t%d/%d\t\t%d\t\t%d\t\t%.2f\n", players2.get(i).getName(), players2.get(i).getRuns(), players2.get(i).getBallsfaced(), players2.get(i).getFours(), players2.get(i).getSixes(), ((float) players2.get(i).getRuns() / players2.get(i).getBallsfaced()) * 100);
+        }
+        bowlers = matchScorecard.getTeam2Scorecard().getBowlers();
+        System.out.println("-----------------------------------");
+        System.out.println("Name\t\tOvers\t\tRuns\t\tWickets");
+        for (int i = 0; i < bowlers.size(); i++) {
+            Bowler b = ((Bowler) bowlers.get(i));
+            System.out.println(b.getName() + "\t\t" + (b.getBallsDone() / 6) + "." + (b.getBallsDone() % 6) + "\t\t" + b.getRunsGiven() + "\t\t" + b.getWickets());
         }
         System.out.print(ANSI_BLUE);
         if (matchScorecard.getTeam1Scorecard().getTotalRuns() > matchScorecard.getTeam2Scorecard().getTotalRuns()) {

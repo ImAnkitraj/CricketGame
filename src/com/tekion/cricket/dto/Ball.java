@@ -3,6 +3,7 @@ package com.tekion.cricket.dto;
 import com.tekion.cricket.enums.BallOutcome;
 import com.tekion.cricket.utils.Constants;
 
+import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,15 +23,18 @@ public class Ball {
         List<BallOutcome> ballOutcomes = Arrays.asList(BallOutcome.values());
         this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size()));
         this.run = ballOutcome.getValue();
+        ((Bowler) this.bowler).setRunsGiven(this.run);
+        ((Bowler) this.bowler).incrementBallsDone();
+        if(ballOutcome == BallOutcome.Wicket) {
+            ((Bowler) this.bowler).incrementWickets();
+        }
         System.out.println();
-        System.out.println(Constants.ANSI_GREEN+batsman.getName() + " faced the ball by " + bowler.getName());
-        System.out.print(Constants.ANSI_PURPLE+"\tResult: " + ballOutcome);
+        System.out.println(Constants.ANSI_GREEN + batsman.getName() + " faced the ball by " + bowler.getName());
+        System.out.print(Constants.ANSI_PURPLE + "\tResult: " + ballOutcome);
     }
 
     public String toString() {
-        return batsman.getName() + " played the ball, bowled by "
-                + bowler.getName() + " Result : " +
-                (ballOutcome == BallOutcome.Wicket ? "Wicket" : ballOutcome.getValue());
+        return batsman.getName() + " played the ball, bowled by " + bowler.getName() + " Result : " + (ballOutcome == BallOutcome.Wicket ? "Wicket" : ballOutcome.getValue());
     }
 
     public Player getBatsman() {
