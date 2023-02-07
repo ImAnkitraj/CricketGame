@@ -20,29 +20,32 @@ public class Ball {
         this.bowler = bowler;
         this.run = 0;
         Random random = new Random();
-        List<BallOutcome> ballOutcomes = Arrays.asList(BallOutcome.values());
+        List<BallOutcome> ballOutcomes = new ArrayList<>(List.of(BallOutcome.values()));
         this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size()));
+
+        if(batsman instanceof Batsman) {
+            if(random.nextInt(10)>3) {
+                List<BallOutcome> o = new ArrayList<>(List.of(BallOutcome.One, BallOutcome.Two, BallOutcome.Three, BallOutcome.Four, BallOutcome.Six, BallOutcome.Three));
+                this.ballOutcome = o.get(random.nextInt(o.size()));
+            }
+        }
+        else if(batsman instanceof Bowler){
+            if (random.nextInt(10)>3) {
+                List<BallOutcome> o = new ArrayList<>(List.of(BallOutcome.One, BallOutcome.Two, BallOutcome.Three, BallOutcome.Wicket));
+                this.ballOutcome = o.get(random.nextInt(o.size()));
+            }
+        }
+
         this.run = ballOutcome.getValue();
         ((Bowler) this.bowler).setRunsGiven(this.run);
         ((Bowler) this.bowler).incrementBallsDone();
         if(ballOutcome == BallOutcome.Wicket) {
             ((Bowler) this.bowler).incrementWickets();
         }
+
         System.out.println();
         System.out.println(Constants.ANSI_GREEN + batsman.getName() + " faced the ball by " + bowler.getName());
         System.out.print(Constants.ANSI_PURPLE + "\tResult: " + ballOutcome);
-    }
-
-    public String toString() {
-        return batsman.getName() + " played the ball, bowled by " + bowler.getName() + " Result : " + (ballOutcome == BallOutcome.Wicket ? "Wicket" : ballOutcome.getValue());
-    }
-
-    public Player getBatsman() {
-        return batsman;
-    }
-
-    public Player getBowler() {
-        return bowler;
     }
 
     public BallOutcome getBallOutcome() {

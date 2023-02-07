@@ -1,6 +1,6 @@
 package com.tekion.cricket.dto;
 
-public class Bowler extends Player {
+public class Bowler extends Batsman {
 
     private Integer ballsDone = 0;
     private Integer wickets = 0;

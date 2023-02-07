@@ -8,12 +8,10 @@ import java.util.List;
 public class Team {
     private String name;
     private List<Player> players;
-    private Scorecard scorecard;
 
-    public Team(String name, List<Player> players, boolean isBatting) {
+    public Team(String name, List<Player> players) {
         this.name = name;
         this.players = players;
-        this.scorecard = new Scorecard(players, isBatting);
     }
 
     public String getName() {
@@ -25,7 +23,4 @@ public class Team {
         return playersList;
     }
 
-    public Scorecard getScorecard() {
-        return scorecard;
-    }
 }

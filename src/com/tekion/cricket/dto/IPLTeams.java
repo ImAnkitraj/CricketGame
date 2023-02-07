@@ -54,8 +54,8 @@ public class IPLTeams {
         return team2Players;
     }
     public static void initIplTeams() {
-        iplTeams.add(new Team("Chennai Super Kings", initializeCSKPlayers(), true));
-        iplTeams.add(new Team("Mumbai Indians", initializeMIPlayers(), true));
-        iplTeams.add(new Team("Royal Challengs Bangalore", initializeRCBPlayers(), true));
+        iplTeams.add(new Team("Chennai Super Kings", initializeCSKPlayers()));
+        iplTeams.add(new Team("Mumbai Indians", initializeMIPlayers()));
+        iplTeams.add(new Team("Royal Challengs Bangalore", initializeRCBPlayers()));
     }
 }
