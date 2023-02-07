@@ -6,7 +6,7 @@ public class MatchScorecard {
     private Scorecard team1Inning1Scorecard = null;
     private Scorecard team1Inning2Scorecard = null;
 
-    List<Team> teams;
+    private List<Team> teams;
     private Scorecard team2Inning1Scorecard = null;
     private Scorecard team2Inning2Scorecard = null;
 
