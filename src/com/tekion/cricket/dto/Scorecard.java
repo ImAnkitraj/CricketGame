@@ -6,7 +6,6 @@ import org.w3c.dom.ls.LSInput;
 import java.util.*;
 
 public class Scorecard {
-    // match // team // currOver
     private Integer totalWickets = 0;
     private Integer totalRuns = 0;
     private List<Player> players;
@@ -23,6 +22,7 @@ public class Scorecard {
         }
     }
     public Scorecard(List<Player> players) {
+
         this.players = players;
         this.striker = this.players.get(0);
         this.nonStriker = this.players.get(1);
@@ -55,11 +55,12 @@ public class Scorecard {
         }
     }
 
-    public void changeBowler(Integer oversLimitPerBowler) {
+    public void changeBowler() {
+
         Random random = new Random();
         Player b = bowlers.get(random.nextInt(bowlers.size()));
         if (b.getId().equals(bowler.getId())) {
-            changeBowler(oversLimitPerBowler);
+            changeBowler();
         } else {
             bowler = b;
         }

@@ -4,15 +4,48 @@ import com.tekion.cricket.dto.*;
 
 import java.util.*;
 
-import static com.tekion.cricket.utils.Constants.ANSI_BLUE;
-import static com.tekion.cricket.utils.Constants.ANSI_RED;
+import static com.tekion.cricket.utils.Constants.*;
 
 public abstract class Match {
     protected Date date;
     protected MatchScorecard matchScorecard;
     protected String venue;
 
-    abstract public void play();
+    public Match(Date date, String venue, Integer overs) {
+        this.date = date;
+        List<Team> teams = selectTeams();
+        this.matchScorecard = new MatchScorecard(teams, overs);
+        matchScorecard.getTeam1Inning1Scorecard().setBatting(true);
+        matchScorecard.getTeam2Inning1Scorecard().setBatting(false);
+        this.venue = venue;
+    }
+
+    public void play() {
+        Team team1 = matchScorecard.getTeams().get(0);
+        Team team2 = matchScorecard.getTeams().get(1);
+
+        //team1 innings
+        for (int overNumber = 1; (overNumber <= matchScorecard.getOvers()) && matchScorecard.getTeam1Inning1Scorecard().getTotalWickets() < 10; overNumber++) {
+            Over over = new Over(matchScorecard.getTeam1Inning1Scorecard(), matchScorecard.getTeam2Inning1Scorecard());
+            System.out.println(ANSI_CYAN + "\nOver: " + overNumber);
+            over.throwOver();
+            matchScorecard.getTeam1Inning1Scorecard().swapStriker();
+            matchScorecard.getTeam2Inning1Scorecard().changeBowler();
+        }
+
+        matchScorecard.getTeam1Inning1Scorecard().setBatting(false);
+        matchScorecard.getTeam2Inning1Scorecard().setBatting(true);
+
+        //team2 innings
+        for (int overNumber = 1; (overNumber <= matchScorecard.getOvers()) && (matchScorecard.getTeam2Inning1Scorecard().getTotalWickets() < 10) && (matchScorecard.getTeam2Inning1Scorecard().getTotalRuns() <= matchScorecard.getTeam1Inning1Scorecard().getTotalRuns()); overNumber++) {
+            Over over = new Over(matchScorecard.getTeam1Inning1Scorecard(), matchScorecard.getTeam2Inning1Scorecard());
+            System.out.println(ANSI_GREEN + "\nOver: " + overNumber);
+            over.throwOver();
+            matchScorecard.getTeam2Inning1Scorecard().swapStriker();
+            matchScorecard.getTeam1Inning1Scorecard().changeBowler();
+        }
+        displayResult(team1, team2);
+    }
 
     private static void teamSelectPrompt(List<Team> teams) {
         Scanner sc = new Scanner(System.in);
@@ -152,7 +185,7 @@ public abstract class Match {
         }
     }
 
-    protected void displayResult(Team team1, Team team2) {
+    private void displayResult(Team team1, Team team2) {
 
         System.out.println(ANSI_RED + "\nTeam: " + team1.getName() + matchScorecard.getTeam1Inning1Scorecard() + "\n");
         battingDisplayFormatter(matchScorecard.getTeam1Inning1Scorecard().getPlayed());
@@ -163,14 +196,5 @@ public abstract class Match {
         bowlingDisplayFormatter(matchScorecard.getTeam1Inning1Scorecard().getBowlers());
 
         displayFinalResult(team1, team2);
-    }
-
-    public Match(Date date, String venue) {
-        this.date = date;
-        List<Team> teams = selectTeams();
-        this.matchScorecard = new MatchScorecard(teams);
-        matchScorecard.getTeam1Inning1Scorecard().setBatting(true);
-        matchScorecard.getTeam2Inning1Scorecard().setBatting(false);
-        this.venue = venue;
     }
 }
