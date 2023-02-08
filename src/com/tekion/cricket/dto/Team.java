@@ -1,7 +1,5 @@
 package com.tekion.cricket.dto;
 
-import com.tekion.cricket.dto.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 

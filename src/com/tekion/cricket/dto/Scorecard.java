@@ -1,43 +1,44 @@
 package com.tekion.cricket.dto;
 
-import com.tekion.cricket.services.Match;
 import com.tekion.cricket.utils.Constants;
+import org.w3c.dom.ls.LSInput;
 
 import java.util.*;
 
 public class Scorecard {
     // match // team // currOver
-    private Integer totalWickets;
-    private Integer totalRuns;
+    private Integer totalWickets = 0;
+    private Integer totalRuns = 0;
     private List<Player> players;
     private Player striker;
     private Player nonStriker;
     private Player bowler;
-    private Boolean isBatting;
-    private Set<Player> played;
-    private Map<Player, Integer> bowled;
+    private Boolean isBatting = true;
+    private ArrayList<Player> played = new ArrayList<>();
     private List<Player> bowlers = new ArrayList<>();
 
-
+    public void resetPlayers() {
+        for (int i=0;i<players.size(); i++) {
+            ((Bowler)players.get(i)).reset();
+        }
+    }
     public Scorecard(List<Player> players) {
-        this.totalWickets = 0;
-        this.totalRuns = 0;
-        this.players = new ArrayList<>(players);
+        this.players = players;
         this.striker = this.players.get(0);
         this.nonStriker = this.players.get(1);
-        this.isBatting = true;
-        this.played = new HashSet<>();
-        this.bowled = new HashMap<>();
 
         for (int i = 0; i < this.players.size(); i++) {
             if (this.players.get(i) instanceof Bowler) {
-                bowled.put(this.players.get(i), 0);
                 if (this.bowler == null) {
                     this.bowler = this.players.get(i);
                 }
                 bowlers.add(this.players.get(i));
             }
         }
+
+        this.played.add(this.striker);
+        this.played.add(this.nonStriker);
+
     }
 
     public Boolean getBatting() {
@@ -47,18 +48,18 @@ public class Scorecard {
     public void changeBatman() {
         for (int i = 0; i < this.players.size(); i++) {
             if (!played.contains(this.players.get(i)) && this.players.get(i) != striker && this.players.get(i) != nonStriker) {
-                played.add(striker);
                 setStriker(this.players.get(i));
+                played.add((Batsman)striker);
                 break;
             }
         }
     }
 
-    public void changeBowler() {
+    public void changeBowler(Integer oversLimitPerBowler) {
         Random random = new Random();
         Player b = bowlers.get(random.nextInt(bowlers.size()));
         if (b.getId().equals(bowler.getId())) {
-            changeBowler();
+            changeBowler(oversLimitPerBowler);
         } else {
             bowler = b;
         }
@@ -112,5 +113,9 @@ public class Scorecard {
 
     public List<Player> getBowlers() {
         return this.bowlers;
+    }
+
+    public ArrayList<Player> getPlayed() {
+        return played;
     }
 }

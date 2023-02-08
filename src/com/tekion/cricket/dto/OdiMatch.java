@@ -4,7 +4,8 @@ import com.tekion.cricket.services.Match;
 
 import java.util.Date;
 
-import static com.tekion.cricket.utils.Constants.*;
+import static com.tekion.cricket.utils.Constants.ANSI_CYAN;
+import static com.tekion.cricket.utils.Constants.ANSI_GREEN;
 
 public class OdiMatch extends Match {
     private Integer overs;
@@ -26,7 +27,7 @@ public class OdiMatch extends Match {
             System.out.println(ANSI_CYAN + "\nOver: " + overNumber);
             over.throwOver();
             matchScorecard.getTeam1Inning1Scorecard().swapStriker();
-            matchScorecard.getTeam2Inning1Scorecard().changeBowler();
+            matchScorecard.getTeam2Inning1Scorecard().changeBowler(overLimitPerBowler);
         }
 
         matchScorecard.getTeam1Inning1Scorecard().setBatting(false);
@@ -37,7 +38,7 @@ public class OdiMatch extends Match {
             System.out.println(ANSI_GREEN + "\nOver: " + overNumber);
             over.throwOver();
             matchScorecard.getTeam2Inning1Scorecard().swapStriker();
-            matchScorecard.getTeam1Inning1Scorecard().changeBowler();
+            matchScorecard.getTeam1Inning1Scorecard().changeBowler(overLimitPerBowler);
         }
 
         displayResult(team1, team2);

@@ -33,4 +33,11 @@ public class Bowler extends Batsman {
     public void setRunsGiven(Integer runs) {
         this.runsGiven += runs;
     }
+    @Override
+    public void reset() {
+        super.reset();
+        this.ballsDone = 0;
+        this.wickets = 0;
+        this.runsGiven = 0;
+    }
 }

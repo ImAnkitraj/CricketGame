@@ -45,7 +45,7 @@ public class IPLTeams {
         team2Players.add(new Batsman("Glenn Maxwell"));
         team2Players.add(new Batsman("Dinesh Karthik"));
         team2Players.add(new Batsman("Mahipal Lomror"));
-        team2Players.add(new Bowler(" Shahbaz Ahmed"));
+        team2Players.add(new Bowler("Shahbaz Ahmed"));
         team2Players.add(new Bowler("Wanindu Hasaranga"));
         team2Players.add(new Bowler("Harshal Patel"));
         team2Players.add(new Bowler("Josh Hazlewood"));

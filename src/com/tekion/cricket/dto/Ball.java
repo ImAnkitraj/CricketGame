@@ -3,9 +3,7 @@ package com.tekion.cricket.dto;
 import com.tekion.cricket.enums.BallOutcome;
 import com.tekion.cricket.utils.Constants;
 
-import java.io.BufferedWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -18,20 +16,27 @@ public class Ball {
     private void calcBallOutcome() {
         Random random = new Random();
         List<BallOutcome> ballOutcomes = new ArrayList<>(List.of(BallOutcome.values()));
-        this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size()));
 
-        if (batsman instanceof Batsman) {
+        if (batsman instanceof Bowler) {
             if (random.nextInt(10) > 3) {
-                List<BallOutcome> o = new ArrayList<>(List.of(BallOutcome.One, BallOutcome.Two, BallOutcome.Three, BallOutcome.Four, BallOutcome.Six, BallOutcome.Three));
+                List<BallOutcome> o = new ArrayList<>(List.of(BallOutcome.One, BallOutcome.Two, BallOutcome.Wicket));
                 this.ballOutcome = o.get(random.nextInt(o.size()));
             }
-        } else if (batsman instanceof Bowler) {
-            if (random.nextInt(10) > 3) {
-                List<BallOutcome> o = new ArrayList<>(List.of(BallOutcome.One, BallOutcome.Two, BallOutcome.Three, BallOutcome.Wicket));
-                this.ballOutcome = o.get(random.nextInt(o.size()));
+            else {
+                this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size()-1));
             }
         }
+        else {
+            if (random.nextInt(10) > 3) {
+                this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size()-1));
+            }
+            else {
+                this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size()));
+            }
+        }
+
     }
+
     public Ball(Player batsman, Player bowler) {
         this.batsman = batsman;
         this.bowler = bowler;
@@ -50,6 +55,7 @@ public class Ball {
         System.out.println(Constants.ANSI_GREEN + batsman.getName() + " faced the ball by " + bowler.getName());
         System.out.print(Constants.ANSI_PURPLE + "\tResult: " + ballOutcome);
     }
+
     public BallOutcome getBallOutcome() {
         return ballOutcome;
     }
