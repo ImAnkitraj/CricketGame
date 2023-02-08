@@ -16,11 +16,6 @@ public class Scorecard {
     private ArrayList<Player> played = new ArrayList<>();
     private List<Player> bowlers = new ArrayList<>();
 
-    public void resetPlayers() {
-        for (int i=0;i<players.size(); i++) {
-            ((Bowler)players.get(i)).reset();
-        }
-    }
     public Scorecard(List<Player> players) {
 
         this.players = players;

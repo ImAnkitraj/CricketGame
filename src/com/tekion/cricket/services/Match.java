@@ -44,6 +44,7 @@ public abstract class Match {
             matchScorecard.getTeam2Inning1Scorecard().swapStriker();
             matchScorecard.getTeam1Inning1Scorecard().changeBowler();
         }
+
         displayResult(team1, team2);
     }
 
@@ -154,22 +155,22 @@ public abstract class Match {
     }
 
     private void battingDisplayFormatter(List<Player> players) {
-        System.out.println("------------------------------------------------------------------");
-        System.out.printf("| %-20s | %-4s | %-4s | %-4s | %-4s | %-8s | \n", "Name", "Runs", "Balls", "4s", "6s", "Srike Rate");
-        System.out.println("------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-4s | %-4s | %-4s | %-4s | %-8s | \n","Id", "Name", "Runs", "Balls", "4s", "6s", "Srike Rate");
+        System.out.println("--------------------------------------------------------------------------");
         for (int i = 0; i < players.size(); i++) {
             Batsman batsman = (Batsman) players.get(i);
-            System.out.format("| %-20s | %-4d | %-4d  | %-4d | %-4d | %-9.2f  | \n", batsman.getName(), batsman.getRuns(), batsman.getBallsfaced(), batsman.getFours(), batsman.getSixes(), (batsman.getBallsfaced() == 0 ? 0.00 : ((float) batsman.getRuns() / batsman.getBallsfaced()) * 100));
+            System.out.format("| %-5s | %-20s | %-4d | %-4d  | %-4d | %-4d | %-9.2f  | \n", batsman.getId(),batsman.getName(), batsman.getRuns(), batsman.getBallsfaced(), batsman.getFours(), batsman.getSixes(), (batsman.getBallsfaced() == 0 ? 0.00 : ((float) batsman.getRuns() / batsman.getBallsfaced()) * 100));
         }
     }
 
     private void bowlingDisplayFormatter(List<Player> bowlers) {
-        System.out.println("------------------------------------------------------------------");
-        System.out.printf("| %-20s | %-5s | %-5s | %-8s |\n", "Name", "Overs", "Runs", "Wickets");
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-5s | %-5s | %-8s |\n","Id", "Name", "Overs", "Runs", "Wickets");
 
         for (int i = 0; i < bowlers.size(); i++) {
             Bowler b = ((Bowler) bowlers.get(i));
-            System.out.printf("| %-20s | %-5s | %-5s | %-8s |\n", b.getName(), (b.getBallsDone() / 6) + "." + (b.getBallsDone() % 6), b.getRunsGiven(), b.getWickets());
+            System.out.printf("| %-5s | %-20s | %-5s | %-5s | %-8s |\n", b.getId(),b.getName(), (b.getBallsDone() / 6) + "." + (b.getBallsDone() % 6), b.getRunsGiven(), b.getWickets());
         }
 
     }
