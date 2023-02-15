@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IPLTeams {
+
     public static List<Team> iplTeams = new ArrayList<>();
+
     protected static List<Player> initializeCSKPlayers() {
         List<Player> team1Players = new ArrayList<>();
         team1Players.add(new Batsman("Ruturaj Gaikwad"));
@@ -53,9 +55,10 @@ public class IPLTeams {
 
         return team2Players;
     }
+
     public static void initIplTeams() {
         iplTeams.add(new Team("Chennai Super Kings", initializeCSKPlayers()));
         iplTeams.add(new Team("Mumbai Indians", initializeMIPlayers()));
-        iplTeams.add(new Team("Royal Challengs Bangalore", initializeRCBPlayers()));
+        iplTeams.add(new Team("Royal Challengers Bangalore", initializeRCBPlayers()));
     }
 }

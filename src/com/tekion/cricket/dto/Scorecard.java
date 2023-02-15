@@ -1,11 +1,11 @@
 package com.tekion.cricket.dto;
 
 import com.tekion.cricket.utils.Constants;
-import org.w3c.dom.ls.LSInput;
 
 import java.util.*;
 
 public class Scorecard {
+
     private Integer totalWickets = 0;
     private Integer totalRuns = 0;
     private List<Player> players;
@@ -14,6 +14,7 @@ public class Scorecard {
     private Player bowler;
     private Boolean isBatting = true;
     private ArrayList<Player> played = new ArrayList<>();
+    private Integer totalBallsFaced = 0;
     private List<Player> bowlers = new ArrayList<>();
 
     public Scorecard(List<Player> players) {
@@ -42,9 +43,10 @@ public class Scorecard {
 
     public void changeBatman() {
         for (int i = 0; i < this.players.size(); i++) {
-            if (!played.contains(this.players.get(i)) && this.players.get(i) != striker && this.players.get(i) != nonStriker) {
+            if (!played.contains(this.players.get(i)) && this.players.get(i) != striker &&
+                this.players.get(i) != nonStriker) {
                 setStriker(this.players.get(i));
-                played.add((Batsman)striker);
+                played.add((Batsman) striker);
                 break;
             }
         }
@@ -100,7 +102,8 @@ public class Scorecard {
     }
 
     public String toString() {
-        return "\n" + Constants.ANSI_PURPLE + "Scorecard: \n" + "\tRuns: " + totalRuns + "\n\tWickets: " + totalWickets;
+        return "\n" + Constants.ANSI_PURPLE + "Scorecard: \n" + "\tRuns: " + totalRuns + "\n\tWickets: " +
+               totalWickets + "\n\tOvers: " + totalBallsFaced / 6 + "." + totalBallsFaced % 6;
     }
 
     public List<Player> getPlayers() {
@@ -113,5 +116,13 @@ public class Scorecard {
 
     public ArrayList<Player> getPlayed() {
         return played;
+    }
+
+    public Integer getTotalBallsFaced() {
+        return totalBallsFaced;
+    }
+
+    public void incrementTotalBallsBowled() {
+        this.totalBallsFaced++;
     }
 }

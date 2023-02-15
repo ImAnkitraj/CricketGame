@@ -3,13 +3,11 @@ package com.tekion.cricket.dto;
 import java.util.List;
 
 public class MatchScorecard {
-    private Scorecard team1Inning1Scorecard;
 
+    private Scorecard team1Inning1Scorecard;
     private List<Team> teams;
     private Integer overs;
-
     private Scorecard team2Inning1Scorecard;
-
 
     public MatchScorecard(List<Team> teams, Integer overs) {
         this.team1Inning1Scorecard = new Scorecard(teams.get(0).getPlayers());

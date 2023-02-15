@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Ball {
+
     private Player batsman;
     private Player bowler;
     private Integer run = 0;
@@ -21,17 +22,17 @@ public class Ball {
             if (random.nextInt(10) > 3) {
                 List<BallOutcome> o = new ArrayList<>(List.of(BallOutcome.One, BallOutcome.Two, BallOutcome.Wicket));
                 this.ballOutcome = o.get(random.nextInt(o.size()));
+            } else {
+                this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size() - 1));
             }
-            else {
-                this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size()-1));
-            }
-        }
-        else {
-            if (random.nextInt(10) > 3) {
-                this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size()-1));
-            }
-            else {
+        } else {
+            int probability = random.nextInt(10);
+            if (probability < 3) {
                 this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size()));
+            } else if (probability > 5) {
+                this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size() - 3));
+            } else {
+                this.ballOutcome = ballOutcomes.get(random.nextInt(ballOutcomes.size() - 1));
             }
         }
 

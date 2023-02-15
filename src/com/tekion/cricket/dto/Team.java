@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
+
     private String name;
     private List<Player> players;
 
@@ -17,8 +18,7 @@ public class Team {
     }
 
     public List<Player> getPlayers() {
-        List<Player> playersList = new ArrayList<>(players);
-        return playersList;
+        return new ArrayList<>(players);
     }
 
 }

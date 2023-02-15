@@ -7,6 +7,7 @@ import java.util.*;
 import static com.tekion.cricket.utils.Constants.*;
 
 public abstract class Match {
+
     protected Date date;
     protected MatchScorecard matchScorecard;
     protected String venue;
@@ -25,7 +26,8 @@ public abstract class Match {
         Team team2 = matchScorecard.getTeams().get(1);
 
         //team1 innings
-        for (int overNumber = 1; (overNumber <= matchScorecard.getOvers()) && matchScorecard.getTeam1Inning1Scorecard().getTotalWickets() < 10; overNumber++) {
+        for (int overNumber = 1; (overNumber <= matchScorecard.getOvers()) &&
+                                 matchScorecard.getTeam1Inning1Scorecard().getTotalWickets() < 10; overNumber++) {
             Over over = new Over(matchScorecard.getTeam1Inning1Scorecard(), matchScorecard.getTeam2Inning1Scorecard());
             System.out.println(ANSI_CYAN + "\nOver: " + overNumber);
             over.throwOver();
@@ -37,7 +39,10 @@ public abstract class Match {
         matchScorecard.getTeam2Inning1Scorecard().setBatting(true);
 
         //team2 innings
-        for (int overNumber = 1; (overNumber <= matchScorecard.getOvers()) && (matchScorecard.getTeam2Inning1Scorecard().getTotalWickets() < 10) && (matchScorecard.getTeam2Inning1Scorecard().getTotalRuns() <= matchScorecard.getTeam1Inning1Scorecard().getTotalRuns()); overNumber++) {
+        for (int overNumber = 1; (overNumber <= matchScorecard.getOvers()) &&
+                                 (matchScorecard.getTeam2Inning1Scorecard().getTotalWickets() < 10) &&
+                                 (matchScorecard.getTeam2Inning1Scorecard().getTotalRuns() <=
+                                  matchScorecard.getTeam1Inning1Scorecard().getTotalRuns()); overNumber++) {
             Over over = new Over(matchScorecard.getTeam1Inning1Scorecard(), matchScorecard.getTeam2Inning1Scorecard());
             System.out.println(ANSI_GREEN + "\nOver: " + overNumber);
             over.throwOver();
@@ -45,7 +50,7 @@ public abstract class Match {
             matchScorecard.getTeam1Inning1Scorecard().changeBowler();
         }
 
-        displayResult(team1, team2);
+        ScoreboardDisplayer.displayResult(team1, team2, matchScorecard);
     }
 
     private static void teamSelectPrompt(List<Team> teams) {
@@ -99,17 +104,21 @@ public abstract class Match {
             int choice = random.nextInt(2);
             if (choice == 1) {
                 swapScorecard();
-                System.out.println(matchScorecard.getTeams().get(1).getName() + " won the toss and elected to bowl first.");
+                System.out.println(
+                        matchScorecard.getTeams().get(1).getName() + " won the toss and elected to bowl first.");
             } else {
-                System.out.println(matchScorecard.getTeams().get(0).getName() + " won the toss and elected to bat first.");
+                System.out.println(
+                        matchScorecard.getTeams().get(0).getName() + " won the toss and elected to bat first.");
             }
         } else {
             int choice = random.nextInt(2);
             if (choice == 0) {
                 swapScorecard();
-                System.out.println(matchScorecard.getTeams().get(0).getName() + " won the toss and elected to bat first.");
+                System.out.println(
+                        matchScorecard.getTeams().get(0).getName() + " won the toss and elected to bat first.");
             } else {
-                System.out.println(matchScorecard.getTeams().get(1).getName() + " won the toss and elected to bowl first.");
+                System.out.println(
+                        matchScorecard.getTeams().get(1).getName() + " won the toss and elected to bowl first.");
             }
         }
     }
@@ -154,48 +163,4 @@ public abstract class Match {
         return match;
     }
 
-    private void battingDisplayFormatter(List<Player> players) {
-        System.out.println("--------------------------------------------------------------------------");
-        System.out.printf("| %-5s | %-20s | %-4s | %-4s | %-4s | %-4s | %-8s | \n","Id", "Name", "Runs", "Balls", "4s", "6s", "Srike Rate");
-        System.out.println("--------------------------------------------------------------------------");
-        for (int i = 0; i < players.size(); i++) {
-            Batsman batsman = (Batsman) players.get(i);
-            System.out.format("| %-5s | %-20s | %-4d | %-4d  | %-4d | %-4d | %-9.2f  | \n", batsman.getId(),batsman.getName(), batsman.getRuns(), batsman.getBallsfaced(), batsman.getFours(), batsman.getSixes(), (batsman.getBallsfaced() == 0 ? 0.00 : ((float) batsman.getRuns() / batsman.getBallsfaced()) * 100));
-        }
-    }
-
-    private void bowlingDisplayFormatter(List<Player> bowlers) {
-        System.out.println("--------------------------------------------------------------------------");
-        System.out.printf("| %-5s | %-20s | %-5s | %-5s | %-8s |\n","Id", "Name", "Overs", "Runs", "Wickets");
-
-        for (int i = 0; i < bowlers.size(); i++) {
-            Bowler b = ((Bowler) bowlers.get(i));
-            System.out.printf("| %-5s | %-20s | %-5s | %-5s | %-8s |\n", b.getId(),b.getName(), (b.getBallsDone() / 6) + "." + (b.getBallsDone() % 6), b.getRunsGiven(), b.getWickets());
-        }
-
-    }
-
-    private void displayFinalResult(Team team1, Team team2) {
-        System.out.print(ANSI_BLUE);
-        if (matchScorecard.getTeam1Inning1Scorecard().getTotalRuns() > matchScorecard.getTeam2Inning1Scorecard().getTotalRuns()) {
-            System.out.println(team1.getName() + " wins by " + (matchScorecard.getTeam1Inning1Scorecard().getTotalRuns() - matchScorecard.getTeam2Inning1Scorecard().getTotalRuns()) + " runs");
-        } else if (matchScorecard.getTeam1Inning1Scorecard().getTotalRuns() < matchScorecard.getTeam2Inning1Scorecard().getTotalRuns()) {
-            System.out.println(team2.getName() + " wins by " + (10 - matchScorecard.getTeam2Inning1Scorecard().getTotalWickets()) + " wickets");
-        } else {
-            System.out.println("Match drawn");
-        }
-    }
-
-    private void displayResult(Team team1, Team team2) {
-
-        System.out.println(ANSI_RED + "\nTeam: " + team1.getName() + matchScorecard.getTeam1Inning1Scorecard() + "\n");
-        battingDisplayFormatter(matchScorecard.getTeam1Inning1Scorecard().getPlayed());
-        bowlingDisplayFormatter(matchScorecard.getTeam2Inning1Scorecard().getBowlers());
-
-        System.out.println(ANSI_RED + "\nTeam: " + team2.getName() + matchScorecard.getTeam2Inning1Scorecard() + "\n");
-        battingDisplayFormatter(matchScorecard.getTeam2Inning1Scorecard().getPlayed());
-        bowlingDisplayFormatter(matchScorecard.getTeam1Inning1Scorecard().getBowlers());
-
-        displayFinalResult(team1, team2);
-    }
 }

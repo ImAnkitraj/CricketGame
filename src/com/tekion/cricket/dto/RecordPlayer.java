@@ -1,6 +1,7 @@
 package com.tekion.cricket.dto;
 
 public class RecordPlayer {
+
     private String name;
     private String id;
     private Integer careerRuns = 0;
@@ -11,11 +12,13 @@ public class RecordPlayer {
     private Integer careerBallsDone = 0;
     private Integer careerRunsGiven = 0;
     private static int idCount = 0;
+
     public RecordPlayer(String name) {
         this.id = new String(String.format("%d", idCount));
         this.name = name;
         idCount++;
     }
+
     public String getId() {
         return id;
     }
@@ -23,9 +26,12 @@ public class RecordPlayer {
     public String getName() {
         return name;
     }
+
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) return true;
+        if (obj == this) {
+            return true;
+        }
         if ((obj == null) || (obj.getClass() != this.getClass())) {
             return false;
         }
